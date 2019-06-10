@@ -12,11 +12,13 @@
   "devDependencies": {
     "grunt": "^1.0.4",
     "grunt-contrib-uglify-es": "^3.3.0",
+    "eslint": "^5.16.0",
     "merge": ">=1.2.1",
     "qunit": "^2.7.1"
   },
   "scripts": {
-    "test": "firefox -new-tab tests/index.html"
+    "test": "firefox -new-tab tests/index.html",
+    "lint": "eslint --fix src"
   },
   "repository": {
     "type": "git",
