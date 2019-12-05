@@ -1,4 +1,9 @@
 /**
+ * @author Adam Świątkowski
+ * @name Customization for Laravel. DO NOT COPY!
+
+*/
+/**
  * @file Jeditable - jQuery in place edit plugin
  * @home https://github.com/NicolasCARPi/jquery_jeditable
  * @author Mika Tuupola, Dylan Verheul, Nicolas CARPi
@@ -63,7 +68,7 @@
  *     tooltip : "Click to edit...",
  * });
  */
-(function ($) {
+(function($) {
 
     'use strict';
 
@@ -77,7 +82,7 @@
     };
 
     // EDITABLE function
-    $.fn.editable = function (target, options) {
+    $.fn.editable = function(target, options) {
 
         if ('disable' === target) {
             $(this).data('disabled.editable', true);
@@ -94,30 +99,30 @@
                 .removeData('event.editable');
             return;
         }
-        var settings = $.extend({}, $.fn.editable.defaults, { target: target }, options);
+        var settings = $.extend({}, $.fn.editable.defaults, {target:target}, options);
 
         /* setup some functions */
-        var plugin = $.editable.types[settings.type].plugin || function () { };
-        var submit = $.editable.types[settings.type].submit || function () { };
-        var buttons = $.editable.types[settings.type].buttons || $.editable.types.defaults.buttons;
-        var content = $.editable.types[settings.type].content || $.editable.types.defaults.content;
-        var element = $.editable.types[settings.type].element || $.editable.types.defaults.element;
-        var reset = $.editable.types[settings.type].reset || $.editable.types.defaults.reset;
-        var destroy = $.editable.types[settings.type].destroy || $.editable.types.defaults.destroy;
-        var callback = settings.callback || function () { };
-        var intercept = settings.intercept || function (s) { return s; };
-        var onedit = settings.onedit || function () { };
-        var onsubmit = settings.onsubmit || function () { };
-        var onreset = settings.onreset || function () { };
-        var onerror = settings.onerror || reset;
-        var before = settings.before || false;
+        var plugin   = $.editable.types[settings.type].plugin || function() { };
+        var submit   = $.editable.types[settings.type].submit || function() { };
+        var buttons  = $.editable.types[settings.type].buttons || $.editable.types.defaults.buttons;
+        var content  = $.editable.types[settings.type].content || $.editable.types.defaults.content;
+        var element  = $.editable.types[settings.type].element || $.editable.types.defaults.element;
+        var reset    = $.editable.types[settings.type].reset || $.editable.types.defaults.reset;
+        var destroy  = $.editable.types[settings.type].destroy || $.editable.types.defaults.destroy;
+        var callback = settings.callback || function() { };
+        var intercept = settings.intercept || function(s) { return s; };
+        var onedit   = settings.onedit   || function() { };
+        var onsubmit = settings.onsubmit || function() { };
+        var onreset  = settings.onreset  || function() { };
+        var onerror  = settings.onerror  || reset;
+        var before   = settings.before || false;
 
         // TOOLTIP
         if (settings.tooltip) {
             $(this).attr('title', settings.tooltip);
         }
 
-        return this.each(function () {
+        return this.each(function() {
 
             /* Save this to self because this changes when scope changes. */
             var self = this;
@@ -136,7 +141,7 @@
             }
 
             // EVENT IS FIRED
-            $(this).bind(settings.event, function (e) {
+            $(this).bind(settings.event, function(e) {
 
                 /* Abort if element is disabled. */
                 if (true === $(this).data('disabled.editable')) {
@@ -180,8 +185,8 @@
                     $(this).html('');
                 }
 
-                self.editing = true;
-                self.revert = $(self).text();
+                self.editing    = true;
+                self.revert     = $(self).text();
                 $(self).html('');
 
                 /* Create the form object. */
@@ -235,7 +240,7 @@
                 var isSubmitting = false;
 
                 if (settings.loadurl) {
-                    t = self.setTimeout(function () {
+                    t = self.setTimeout(function() {
                         input.disabled = true;
                     }, 100);
                     $(self).html(settings.loadtext);
@@ -248,12 +253,12 @@
                         $.extend(loaddata, settings.loaddata);
                     }
                     $.ajax({
-                        type: settings.loadtype,
-                        url: settings.loadurl,
-                        data: loaddata,
+                        type : settings.loadtype,
+                        url  : settings.loadurl,
+                        data : loaddata,
                         async: false,
-                        cache: false,
-                        success: function (result) {
+                        cache : false,
+                        success: function(result) {
                             self.clearTimeout(t);
                             input_content = result;
                             input.disabled = false;
@@ -307,7 +312,7 @@
                 }
 
                 /* discard changes if pressing esc */
-                $(this).keydown(function (e) {
+                $(this).keydown(function(e) {
                     if (e.which === 27) {
                         e.preventDefault();
                         reset.apply(form, [settings, self]);
@@ -317,21 +322,21 @@
                 /* Discard, submit or nothing with changes when clicking outside. */
                 /* Do nothing is usable when navigating with tab. */
                 if ('cancel' === settings.onblur) {
-                    input.blur(function (e) {
+                    input.blur(function(e) {
                         /* Prevent canceling if submit was clicked. */
-                        t = self.setTimeout(function () {
+                        t = self.setTimeout(function() {
                             reset.apply(form, [settings, self]);
                         }, 500);
                     });
                 } else if ('submit' === settings.onblur) {
-                    input.blur(function (e) {
+                    input.blur(function(e) {
                         /* Prevent double submit if submit was clicked. */
-                        t = self.setTimeout(function () {
+                        t = self.setTimeout(function() {
                             form.submit();
                         }, 200);
                     });
                 } else if ($.isFunction(settings.onblur)) {
-                    input.blur(function (e) {
+                    input.blur(function(e) {
                         // reset the form if the onblur function returns false
                         if (false === settings.onblur.apply(self, [input.val(), settings, form])) {
                             reset.apply(form, [settings, self]);
@@ -339,7 +344,7 @@
                     });
                 }
 
-                form.submit(function (e) {
+                form.submit(function(e) {
 
                     /* Do no submit. */
                     e.preventDefault();
@@ -368,7 +373,7 @@
                             /* Check if given target is function */
                             if ($.isFunction(settings.target)) {
                                 /* Callback function to handle the target reponse */
-                                var responseHandler = function (value, complete) {
+                                var responseHandler = function(value, complete) {
                                     isSubmitting = false;
                                     if (false !== complete) {
                                         $(self).html(value);
@@ -392,9 +397,11 @@
                                 formData.append('modelName', settings.modelName);
                                 formData.append('modelId', settings.modelId);
                                 formData.append('fieldType', settings.type);
+                                formData.append('fieldName', settings.fieldName);
                                 formData.append('value', input.val());
-                                $.each($('#file'), function (i, value) {
-                                    formData.append('files[' + i + ']', value.files[0]);
+                                $.each($('#file'), function(i, value)
+                                {
+                                    formData.append('files['+i+']', value.files[0]);
                                 });
 
                                 // SHOW INDICATOR
@@ -402,23 +409,27 @@
 
                                 /* Defaults for ajaxoptions. */
                                 var ajaxoptions = {
-                                    type: 'POST',
+                                    type    : 'POST',
                                     complete: function (xhr, status) {
                                         isSubmitting = false;
                                     },
-                                    data: formData,
-                                    dataType: 'POST',
-                                    url: settings.target,
+                                    data    : formData,
+                                    dataType: 'JSON',
+                                    url     : settings.target,
                                     success: function (result, status) {
 
                                         // INTERCEPT
                                         result = intercept.apply(self, [result, status]);
 
-                                        if (ajaxoptions.dataType === 'html') {
-                                            $(self).html(result);
+                                        if (ajaxoptions.dataType === 'JSON') {
+                                            $(self).html(input.val());
+                                            if(settings.type !== 'select' && settings.type !== 'file' && settings.type !== 'password')
+                                            {
+                                                settings.data = input.val();
+                                            }
                                         }
                                         self.editing = false;
-                                        callback.apply(self, [result, settings, submitdata]);
+                                        callback.apply(self, [result, settings, formData]);
                                         if (!$.trim($(self).html())) {
                                             $(self).html(settings.placeholder);
                                         }
@@ -444,13 +455,13 @@
             // PRIVILEGED METHODS
 
             // RESET
-            self.reset = function (form) {
+            self.reset = function(form) {
                 /* Prevent calling reset twice when blurring. */
                 if (self.editing) {
                     /* Before reset hook, if it returns false abort reseting. */
                     if (false !== onreset.apply(form, [settings, self])) {
                         $(self).text(self.revert);
-                        self.editing = false;
+                        self.editing   = false;
                         if (!$.trim($(self).html())) {
                             $(self).html(settings.placeholder);
                         }
@@ -463,7 +474,7 @@
             };
 
             // DESTROY
-            self.destroy = function (form) {
+            self.destroy = function(form) {
                 $(self)
                     .unbind($(self).data('event.editable'))
                     .removeData('disabled.editable')
@@ -477,18 +488,18 @@
             };
 
             // CLEARTIMEOUT
-            self.clearTimeout = function (t) {
+            self.clearTimeout = function(t) {
                 var timeouts = $(self).data('timeouts');
                 clearTimeout(t);
-                if (timeouts) {
+                if(timeouts) {
                     var i = timeouts.indexOf(t);
-                    if (i > -1) {
+                    if(i > -1) {
                         timeouts.splice(i, 1);
-                        if (timeouts.length <= 0) {
+                        if(timeouts.length <= 0) {
                             $(self).removeData('timeouts');
                         }
                     } else {
-                        console.warn('jeditable clearTimeout could not find timeout ' + t);
+                        console.warn('jeditable clearTimeout could not find timeout '+t);
                     }
                 }
             };
@@ -496,8 +507,8 @@
             // CLEAR ALL TIMEOUTS
             self.clearTimeouts = function () {
                 var timeouts = $(self).data('timeouts');
-                if (timeouts) {
-                    for (var i = 0, n = timeouts.length; i < n; ++i) {
+                if(timeouts) {
+                    for(var i = 0, n = timeouts.length; i < n; ++i) {
                         clearTimeout(timeouts[i]);
                     }
                     timeouts.length = 0;
@@ -506,13 +517,13 @@
             };
 
             // SETTIMEOUT
-            self.setTimeout = function (callback, time) {
+            self.setTimeout = function(callback, time) {
                 var timeouts = $(self).data('timeouts');
-                var t = setTimeout(function () {
+                var t = setTimeout(function() {
                     callback();
                     self.clearTimeout(t);
                 }, time);
-                if (!timeouts) {
+                if(!timeouts) {
                     timeouts = [];
                     $(self).data('timeouts', timeouts);
                 }
@@ -532,27 +543,27 @@
     $.editable = {
         types: {
             defaults: {
-                element: function (settings, original) {
+                element : function(settings, original) {
                     var input = $('<input type="hidden"></input>');
                     $(this).append(input);
-                    return (input);
+                    return(input);
                 },
-                content: function (string, settings, original) {
+                content : function(string, settings, original) {
                     $(this).find(':input:first').val(string);
                 },
-                reset: function (settings, original) {
+                reset : function(settings, original) {
                     original.reset(this);
                 },
-                destroy: function (settings, original) {
+                destroy: function(settings, original) {
                     original.destroy(this);
                 },
-                buttons: function (settings, original) {
+                buttons : function(settings, original) {
                     var form = this;
                     var submit;
                     if (settings.submit) {
                         /* If given html string use that. */
                         if (settings.submit.match(/>$/)) {
-                            submit = $(settings.submit).click(function () {
+                            submit = $(settings.submit).click(function() {
                                 if (submit.attr('type') !== 'submit') {
                                     form.submit();
                                 }
@@ -582,7 +593,7 @@
                         }
                         $(this).append(cancel);
 
-                        $(cancel).click(function (event) {
+                        $(cancel).click(function(event) {
                             var reset;
                             if ($.isFunction($.editable.types[settings.type].reset)) {
                                 reset = $.editable.types[settings.type].reset;
@@ -596,7 +607,7 @@
                 }
             },
             text: {
-                element: function (settings, original) {
+                element : function(settings, original) {
                     var input = $('<input />').attr({
                         autocomplete: 'off',
                         list: settings.list,
@@ -607,7 +618,7 @@
                         type: 'text'
                     });
 
-                    if (settings.width !== 'none') {
+                    if (settings.width  !== 'none') {
                         input.css('width', settings.width);
                     }
 
@@ -624,13 +635,45 @@
                     }
 
                     $(this).append(input);
-                    return (input);
+                    return(input);
                 }
             },
+            //PASSWORD
+            password: {
+                element : function(settings, original) {
+                    var input = $('<input />').attr({
+                        autocomplete: 'off',
+                        list: settings.list,
+                        maxlength: settings.maxlength,
+                        pattern: settings.pattern,
+                        placeholder: '********',
+                        tooltip: settings.tooltip,
+                        type: 'password'
+                    });
 
+                    if (settings.width  !== 'none') {
+                        input.css('width', settings.width);
+                    }
+
+                    if (settings.height !== 'none') {
+                        input.css('height', settings.height);
+                    }
+
+                    if (settings.size) {
+                        input.attr('size', settings.size);
+                    }
+
+                    if (settings.maxlength) {
+                        input.attr('maxlength', settings.maxlength);
+                    }
+
+                    $(this).append(input);
+                    return(input);
+                }
+            },
             // TEXTAREA
             textarea: {
-                element: function (settings, original) {
+                element : function(settings, original) {
                     var textarea = $('<textarea></textarea>');
                     if (settings.rows) {
                         textarea.attr('rows', settings.rows);
@@ -648,13 +691,13 @@
                     }
 
                     $(this).append(textarea);
-                    return (textarea);
+                    return(textarea);
                 }
             },
 
             // SELECT
             select: {
-                element: function (settings, original) {
+                element : function(settings, original) {
                     var select = $('<select />');
 
                     if (settings.multiple) {
@@ -662,9 +705,9 @@
                     }
 
                     $(this).append(select);
-                    return (select);
+                    return(select);
                 },
-                content: function (data, settings, original) {
+                content : function(data, settings, original) {
                     var json;
                     // If it is string assume it is json
                     if (String === data.constructor) {
@@ -682,7 +725,7 @@
                         // Process list of tuples
                         tuples = json // JSON already contains list of [key, value]
                         json = {};
-                        tuples.forEach(function (e) {
+                        tuples.forEach(function(e) {
                             json[e[0]] = e[1]; // Recreate json object to comply with following code
                         });
                     } else {
@@ -725,7 +768,7 @@
                     // submit on change if no submit button defined
                     if (!settings.submit) {
                         var form = this;
-                        $(this).find('select').change(function () {
+                        $(this).find('select').change(function() {
                             form.submit();
                         });
                     }
@@ -738,13 +781,13 @@
                     var input = $('<input />').attr({
                         maxlength: settings.maxlength,
                         placeholder: settings.placeholder,
-                        min: settings.min,
-                        max: settings.max,
+                        min : settings.min,
+                        max : settings.max,
                         step: settings.step,
                         tooltip: settings.tooltip,
                         type: _supportInType('number')
                     });
-                    if (settings.width !== 'none') {
+                    if (settings.width  !== 'none') {
                         input.css('width', settings.width);
                     }
                     $(this).append(input);
@@ -761,7 +804,7 @@
                         tooltip: settings.tooltip,
                         type: _supportInType('email')
                     });
-                    if (settings.width !== 'none') {
+                    if (settings.width  !== 'none') {
                         input.css('width', settings.width);
                     }
                     $(this).append(input);
@@ -779,7 +822,7 @@
                         tooltip: settings.tooltip,
                         type: _supportInType('url')
                     });
-                    if (settings.width !== 'none') {
+                    if (settings.width  !== 'none') {
                         input.css('width', settings.width);
                     }
                     $(this).append(input);
@@ -789,28 +832,28 @@
         },
 
         // add new input type
-        addInputType: function (name, input) {
+        addInputType: function(name, input) {
             $.editable.types[name] = input;
         }
     };
 
     /* Publicly accessible defaults. */
     $.fn.editable.defaults = {
-        name: 'value',
-        id: 'id',
-        type: 'text',
-        width: 'auto',
-        height: 'auto',
+        name       : 'value',
+        id         : 'id',
+        type       : 'text',
+        width      : 'auto',
+        height     : 'auto',
         // Keyboard accessibility - use mouse click OR press any key to enable editing
-        event: 'click.editable keydown.editable',
-        onblur: 'cancel',
-        tooltip: 'Click to edit',
-        loadtype: 'GET',
-        loadtext: 'Loading...',
-        placeholder: 'Click to edit',
+        event      : 'click.editable keydown.editable',
+        onblur     : 'cancel',
+        tooltip    : '',
+        loadtype   : 'GET',
+        loadtext   : 'Loading...',
+        placeholder: '',
         sortselectoptions: false,
-        loaddata: {},
-        submitdata: {},
+        loaddata   : {},
+        submitdata : {},
         ajaxoptions: {}
     };
 

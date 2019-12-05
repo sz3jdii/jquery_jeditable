@@ -18,10 +18,10 @@
 
 $.editable.addInputType('file', {
     /* create input element */
-    element: function (settings) {
+    element : function(settings) {
         settings.onblur = 'ignore';
         var input = $('<input type="file" id="file" name="file" />');
         $(this).append(input);
-        return (input);
+        return(input);
     }
 });
